@@ -105,7 +105,8 @@ def fetchdata():
             all_objects=s3.Bucket(custombucket).objects.all()
             for obj in all_objects:
                 if re.search(emp_image_file_name_in_s3,obj.key()):
-                    image_url = str(obj.url())
+                    image_url = str(obj)
+                    print(image_url)
         except Exception as e:
             return str(e)
     except Exception as e:
