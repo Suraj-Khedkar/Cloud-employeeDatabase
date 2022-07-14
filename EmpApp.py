@@ -107,13 +107,12 @@ def fetchdata():
                     image = str(obj.url())
         except Exception as e:
             return str(e)
-        finally:
-        return render_template('GetEmpOutput.html',empid=empid,fname=fname,lname=lname,interest=interest,location=location,image = image)
     except Exception as e:
         return str(e)
 
     finally:
         cursor.close()
+        return render_template('GetEmpOutput.html',empid=empid,fname=fname,lname=lname,interest=interest,location=location,image = image)
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
