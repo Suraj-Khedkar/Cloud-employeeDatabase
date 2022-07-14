@@ -91,7 +91,7 @@ def fetchdata():
     sql_select = "SELECT * FROM `employee` WHERE `empid`=%s"
     try:
         cursor.execute(sql_select,(emp_id))
-        result = cursor.fetchdata()
+        result = cursor.fetchone()
         print(result)
     except Exception as e:
         return str(e)
