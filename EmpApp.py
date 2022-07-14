@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from pymysql import connections
 import os
 import boto3
+import re
 from config import *
 
 app = Flask(__name__)
@@ -97,7 +98,17 @@ def fetchdata():
         lname = result[2]
         interest = result[3]
         location = result[4]
-        return render_template('GetEmpOutput.html',empid=empid,fname=fname,lname=lname,interest=interest,location=location)
+        try:
+            emp_image_file_name_in_s3 = "emp-id-" + str(empid) + "_image_file"
+            s3 = boto3.resource('s3')
+            all_objects=s3.Bucket(custombucket).objects.all()
+            for obj in all_objects:
+                if re.search(emp_image_file_name_in_s3,obj.key()):
+                    image = str(obj.url())
+        except Exception as e:
+            return str(e)
+        finally:
+        return render_template('GetEmpOutput.html',empid=empid,fname=fname,lname=lname,interest=interest,location=location,image = image)
     except Exception as e:
         return str(e)
 
