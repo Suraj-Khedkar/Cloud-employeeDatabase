@@ -101,8 +101,10 @@ def fetchdata():
         image_url =""
         try:
             emp_image_file_name_in_s3 = "emp-id-" + str(empid) + "_image_file"
+            print("file_name is ",emp_image_file_name_in_s3)
             s3 = boto3.resource('s3')
             all_objects=s3.Bucket(custombucket).objects.all()
+            print("all objects in bucket are",all_objects)
             for obj in all_objects:
                 if re.search(emp_image_file_name_in_s3,obj.key()):
                     image_url = str(obj)
