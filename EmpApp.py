@@ -92,7 +92,12 @@ def fetchdata():
     try:
         cursor.execute(sql_select,(emp_id))
         result = cursor.fetchone()
-        print(result)
+        empid = result[0]
+        fname = result[1]
+        lname = result[2]
+        interest = result[3]
+        location = result[4]
+        return render_template('GetEmpOutput.html',empid=empid,fname=fname,lname=lname,interest=interest,location=location)
     except Exception as e:
         return str(e)
 
