@@ -80,6 +80,24 @@ def AddEmp():
     print("all modification done...")
     return render_template('AddEmpOutput.html', name=emp_name)
 
+@app.route("/getemp",methods=["GET","POST"])
+def getemp():
+    return render_template('GetEmp.html')
 
+@app.route("/fetchdata", methods=["POST"])
+def fetchdata():
+    emp_id = request.form['emp_id']
+    cursor = db_conn.cursor()
+    sql_select = "SELECT * FROM `employee` WHERE `empid`=%s"
+    try:
+        cursor.execute(sql_select,(emp_id))
+        result = cursor.fetchdata()
+        print(result)
+    except Exception as e:
+        return str(e)
+
+    finally:
+        cursor.close()
+        
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
