@@ -102,14 +102,13 @@ def fetchdata():
         try:
             emp_image_file_name_in_s3 = "emp-id-" + str(empid) + "_image_file"
             s3 = boto3.resource('s3')
-            all_objects=s3.Bucket(custombucket).objects.all()
+            my_bucket=s3.Bucket(custombucket).objects.all()
+            
             substring =  "\d"
-            for obj in all_objects:
-                if re.search(substring,obj.key()):
-                    print("re search result",obj.key())
-                    if(obj.key==emp_image_file_name_in_s3):
-                        image_url=obj.key()
-                        print(image_url)
+
+            for obj in my_bucket.objects.all():
+                if re.search(substring,  obj.key):  
+                    print(obj.key)
         except Exception as e:
             return str(e)
     except Exception as e:
