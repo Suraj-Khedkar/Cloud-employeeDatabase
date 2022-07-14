@@ -98,13 +98,14 @@ def fetchdata():
         lname = result[2]
         interest = result[3]
         location = result[4]
+        image_url =""
         try:
             emp_image_file_name_in_s3 = "emp-id-" + str(empid) + "_image_file"
             s3 = boto3.resource('s3')
             all_objects=s3.Bucket(custombucket).objects.all()
             for obj in all_objects:
                 if re.search(emp_image_file_name_in_s3,obj.key()):
-                    image = str(obj.url())
+                    image_url = str(obj.url())
         except Exception as e:
             return str(e)
     except Exception as e:
@@ -112,7 +113,7 @@ def fetchdata():
 
     finally:
         cursor.close()
-        return render_template('GetEmpOutput.html',empid=empid,fname=fname,lname=lname,interest=interest,location=location,image = image)
+        return render_template('GetEmpOutput.html',empid=empid,fname=fname,lname=lname,interest=interest,location=location,image_url = image_url)
         
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
